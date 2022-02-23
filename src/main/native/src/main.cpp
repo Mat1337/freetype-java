@@ -2,10 +2,14 @@
 
 #include "class/impl/free_type.h"
 #include "class/impl/memory_class.h"
+#include "class/impl/bitmap.h"
+#include "class/impl/char_map.h"
 vm_t vm;
 
 FreeType* free_type;
 MemoryClass* memory_class;
+Bitmap* bitmap;
+CharMap* charmap;
 
 jint JNIEXPORT JNI_OnLoad(JavaVM* jvm, void* reserved)
 {
@@ -26,6 +30,8 @@ jint JNIEXPORT JNI_OnLoad(JavaVM* jvm, void* reserved)
     
 	free_type = new FreeType((jlong)lib);
 	memory_class = new MemoryClass();
+	bitmap = new Bitmap();
+	charmap = new CharMap();
 
 	for(auto& cls : vm.cp)
 	{

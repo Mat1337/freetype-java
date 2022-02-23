@@ -7,3 +7,5 @@ class Bitmap : public MemoryClass
 public:
     Bitmap();
 };
+
+extern Bitmap* bitmap;
