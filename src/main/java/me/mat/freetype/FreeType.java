@@ -75,8 +75,12 @@ public class FreeType {
 
     public static native void free();
 
-    public static Face newFace(String file) {
-        return freeTypeHandle.newFace(file);
+    public static Face newFace(File file) {
+        return freeTypeHandle.newFace(file.getAbsolutePath());
+    }
+
+    public static Face newFace(InputStream inputStream) {
+        return freeTypeHandle.newFaceFromMemory(inputStream);
     }
 
     public static void initialize() {

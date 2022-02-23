@@ -12,7 +12,7 @@ public class FreeTypeTest {
     public static void main(String[] args) {
         FreeType.initialize();
 
-        Face face = FreeType.newFace("C:/Windows/Fonts/arial.ttf");
+        Face face = FreeType.newFace(new File("C:/Windows/Fonts/Arial.ttf"));
         System.out.println("--------------------------------------------");
         System.out.println("                Arial Font                  ");
         System.out.println("--------------------------------------------");

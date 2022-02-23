@@ -4,7 +4,9 @@ import lombok.NonNull;
 import me.mat.freetype.font.Face;
 import me.mat.freetype.util.MemoryClass;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.file.FileSystems;
@@ -22,6 +24,21 @@ public class FreeTypeHandle extends MemoryClass {
 
     public Face newFace(String file) {
         return newFace(file, currentIndex);
+    }
+
+    public Face newFaceFromMemory(InputStream inputStream) {
+        try {
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            int nRead;
+            byte[] data = new byte[4];
+            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+                buffer.write(data, 0, nRead);
+            }
+            buffer.flush();
+            return newFace(buffer.toByteArray(), currentIndex);
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     private Face newFace(String file, int faceIndex) {
