@@ -64,6 +64,11 @@ public class FreeType {
     public static final int ENCODING_OLD_LATIN_2 = 1818326066;
     public static final int ENCODING_APPLE_ROMAN = 1634889070;
 
+    // location of the native libraries
+    private static final File TEMP_DIRECTORY = new File(System.getProperty("java.io.tmpdir"));
+    private static final File FREE_TYPE_DLL = new File(TEMP_DIRECTORY, "freetype.dll");
+    private static final File FREE_TYPE_NATIVE_DLL = new File(TEMP_DIRECTORY, "freetype-native.dll");
+
     // native handle
     private static long handle;
     private static FreeTypeHandle freeTypeHandle;
@@ -85,43 +90,44 @@ public class FreeType {
 
     public static void initialize() {
         if (isProduction()) {
-            loadLibrary("freetype.dll");
-            loadLibrary("freetype-native.dll");
-            return;
+            loadLibrary(FREE_TYPE_DLL.getAbsolutePath());
+            loadLibrary(FREE_TYPE_NATIVE_DLL.getAbsolutePath());
+        } else {
+            switch (OperatingSystem.getOperatingSystem()) {
+                case WINDOWS:
+                    loadLibrary("lib/freetype.dll");
+                    loadLibrary("target/Debug/freetype-native.dll");
+                    break;
+                case LINUX:
+                case MAC:
+                case OTHER:
+                    throw new RuntimeException("Unsupported Operating System");
+            }
         }
-        switch (OperatingSystem.getOperatingSystem()) {
-            case WINDOWS:
-                loadLibrary("lib/freetype.dll");
-                loadLibrary("target/Debug/freetype-native.dll");
-                break;
-            case LINUX:
-            case MAC:
-            case OTHER:
-                throw new RuntimeException("Unsupported Operating System");
-        }
-        if (handle == 0)
+        if (handle == 0) {
             throw new RuntimeException("FreeTypeNative has failed to load");
+        }
         freeTypeHandle = new FreeTypeHandle(handle);
 
-        System.out.println("------------------------------");
-        System.out.println("   FreeType Native Library    ");
-        System.out.println("------------------------------");
+        System.out.println("|------------------------------|");
+        System.out.println("|   FreeType Native Library    |");
+        System.out.println("|------------------------------|");
         System.out.println("> Major: " + major);
         System.out.println("> Minor: " + minor);
         System.out.println("> Patch: " + patch);
-        System.out.println("------------------------------");
+        System.out.println("|------------------------------");
     }
 
     private static boolean isProduction() {
-        InputStream freeTypeNative = FreeType.class.getResourceAsStream("freetype-native.dll");
-        InputStream freeType = FreeType.class.getResourceAsStream("freetype.dll");
-        if (freeTypeNative == null
-                || freeType == null) {
+        InputStream freeType = FreeType.class.getResourceAsStream("/freetype.dll");
+        InputStream freeTypeNative = FreeType.class.getResourceAsStream("/freetype-native.dll");
+        if (freeType == null
+                || freeTypeNative == null) {
             return false;
         }
 
-        extractResource("./freetype-native.dll", freeType);
-        extractResource("./freetype.dll", freeType);
+        extractResource(FREE_TYPE_DLL.getAbsolutePath(), freeType);
+        extractResource(FREE_TYPE_NATIVE_DLL.getAbsolutePath(), freeTypeNative);
         return true;
     }
 
