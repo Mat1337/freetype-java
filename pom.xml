@@ -39,7 +39,7 @@
                             <targetPath>${project.basedir}/target/</targetPath>
                             <options>
                                 <option>-DJAVA_PATH=${java.home}</option>
-                                <option>-DFREE_TYPE_DIR=${project.basedir}/freetype/</option>
+                                <option>-DFREE_TYPE_DIR=${project.basedir}/lib/</option>
                             </options>
                         </configuration>
                     </execution>

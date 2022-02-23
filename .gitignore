@@ -6,7 +6,7 @@ target/
 .vscode/
 
 # FreeType
-freetype/
+lib/
 
 # Compiled class file
 *.class

@@ -75,7 +75,7 @@ public class FreeType {
         }
         switch (OperatingSystem.getOperatingSystem()) {
             case WINDOWS:
-                loadLibrary("freetype/freetype.dll");
+                loadLibrary("lib/freetype.dll");
                 loadLibrary("target/Debug/freetype-native.dll");
                 break;
             case LINUX:
