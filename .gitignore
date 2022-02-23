@@ -1,3 +1,13 @@
+# IDEA
+.idea/
+target/
+
+# VsCode
+.vscode/
+
+# FreeType
+freetype/
+
 # Compiled class file
 *.class
 
