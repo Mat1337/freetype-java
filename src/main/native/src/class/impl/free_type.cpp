@@ -2,7 +2,7 @@
 
 jlong library_ptr;
 
-JNIEXPORT jboolean Free(JNIEnv* env, jobject object)
+JNIEXPORT jboolean JNICALL Free(JNIEnv* env, jobject object)
 {
     return FT_Done_FreeType((FT_Library)library_ptr);
 }

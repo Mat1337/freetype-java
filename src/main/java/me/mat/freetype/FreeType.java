@@ -1,5 +1,6 @@
 package me.mat.freetype;
 
+import me.mat.freetype.font.Face;
 import me.mat.freetype.util.OperatingSystem;
 
 import java.io.File;
@@ -51,9 +52,20 @@ public class FreeType {
     public static final int FT_ENCODING_OLD_LATIN_2 = 1818326066; // l a t 2
     public static final int FT_ENCODING_APPLE_ROMAN = 1634889070; // a r m n
 
+    // native handle
     private static long handle;
+    private static FreeTypeHandle freeTypeHandle;
+
+    // version
+    private static int major;
+    private static int minor;
+    private static int patch;
 
     public static native void free();
+
+    public static Face newFace(String file) {
+        return freeTypeHandle.newFace(file);
+    }
 
     public static void initialize() {
         if (isProduction()) {
@@ -73,6 +85,15 @@ public class FreeType {
         }
         if (handle == 0)
             throw new RuntimeException("FreeTypeNative has failed to load");
+        freeTypeHandle = new FreeTypeHandle(handle);
+
+        System.out.println("------------------------------");
+        System.out.println("   FreeType Native Library    ");
+        System.out.println("------------------------------");
+        System.out.println("> Major: " + major);
+        System.out.println("> Minor: " + minor);
+        System.out.println("> Patch: " + patch);
+        System.out.println("------------------------------");
     }
 
     private static boolean isProduction() {
