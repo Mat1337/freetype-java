@@ -85,6 +85,6 @@ Bitmap::Bitmap()
     this->Register(
         "getBuffer",
         "()Ljava/nio/ByteBuffer;",
-        nullptr
+        (void*)&GetBuffer
     );
 }
