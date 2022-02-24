@@ -8,6 +8,14 @@ project(freetype-native)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# set output directories for all builds (Debug, Release, etc.)
+foreach( OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES} )
+    string( TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG )
+    set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${EXPORT_PATH}/ )
+    set( CMAKE_LIBRARY_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${EXPORT_PATH}/ )
+    set( CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${EXPORT_PATH}/ )
+endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
+
 # set the free type include directory
 set(FREE_TYPE_INCLUDE_DIR "${FREE_TYPE_DIR}/include")
 

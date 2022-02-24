@@ -11,6 +11,9 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+        <build.directory>${project.basedir}/target/</build.directory>
+        <native.build.directory>${build.directory}/cmake/</native.build.directory>
+        <native.export.directory>${native.build.directory}/build/</native.export.directory>
     </properties>
 
     <dependencies>
@@ -36,8 +39,9 @@
                         </goals>
                         <configuration>
                             <sourcePath>src/main/native/</sourcePath>
-                            <targetPath>${project.basedir}/target/</targetPath>
+                            <targetPath>${native.build.directory}</targetPath>
                             <options>
+                                <option>-DEXPORT_PATH=${native.export.directory}</option>
                                 <option>-DJAVA_PATH=${java.home}</option>
                                 <option>-DFREE_TYPE_DIR=${project.basedir}/lib/</option>
                             </options>
@@ -49,7 +53,7 @@
                             <goal>compile</goal>
                         </goals>
                         <configuration>
-                            <projectDirectory>${project.basedir}/target/</projectDirectory>
+                            <projectDirectory>${native.build.directory}</projectDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -66,15 +70,14 @@
                             <goal>jar</goal>
                         </goals>
                         <configuration>
-                            <classifier>packed</classifier>
-                            <classesDirectory>${project.basedir}/target/</classesDirectory>
+                            <classifier>natives</classifier>
+                            <classesDirectory>${native.export.directory}</classesDirectory>
                             <includes>
                                 <include>*.dll</include>
-                                <include>*.pdb</include>
                                 <include>*.so</include>
                                 <include>*.dylib</include>
                             </includes>
-                            <outputDirectory>${project.basedir}/target/</outputDirectory>
+                            <outputDirectory>${build.directory}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
