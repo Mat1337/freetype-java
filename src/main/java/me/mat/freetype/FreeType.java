@@ -99,6 +99,9 @@ public class FreeType {
                     loadLibrary("lib/natives/freetype-native.dll");
                     break;
                 case LINUX:
+                    loadLibrary("lib/natives/libfreetype.so");
+                    loadLibrary("lib/natives/libfreetype-native.so");
+                    break;
                 case MAC:
                 case OTHER:
                     throw new RuntimeException("Unsupported Operating System");
