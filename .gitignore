@@ -2,6 +2,12 @@
 .idea/
 target/
 
+# Natives
+freetype-native.dll
+freetype-native.exp
+freetype-native.lib
+freetype-native.pdb
+
 # VsCode
 .vscode/
 

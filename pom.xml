@@ -13,7 +13,8 @@
         <maven.compiler.target>8</maven.compiler.target>
         <build.directory>${project.basedir}/target/</build.directory>
         <native.build.directory>${build.directory}/cmake/</native.build.directory>
-        <native.export.directory>${native.build.directory}/build/</native.export.directory>
+        <library.export.directory>${native.build.directory}/lib/</library.export.directory>
+        <native.export.directory>${project.basedir}/lib/natives/</native.export.directory>
     </properties>
 
     <dependencies>
@@ -41,7 +42,8 @@
                             <sourcePath>src/main/native/</sourcePath>
                             <targetPath>${native.build.directory}</targetPath>
                             <options>
-                                <option>-DEXPORT_PATH=${native.export.directory}</option>
+                                <option>-DNATIVE_EXPORT_PATH=${native.export.directory}</option>
+                                <option>-DLIBRARY_EXPORT_PATH=${native.export.directory}</option>
                                 <option>-DJAVA_PATH=${java.home}</option>
                                 <option>-DFREE_TYPE_DIR=${project.basedir}/lib/</option>
                             </options>
