@@ -49,7 +49,7 @@
                             <targetPath>${native.build.directory}</targetPath>
                             <options>
                                 <option>-DNATIVE_EXPORT_PATH=${native.export.directory}</option>
-                                <option>-DLIBRARY_EXPORT_PATH=${native.export.directory}</option>
+                                <option>-DLIBRARY_EXPORT_PATH=${library.export.directory}</option>
                                 <option>-DJAVA_PATH=${java.home}</option>
                                 <option>-DFREE_TYPE_DIR=${project.basedir}/lib/</option>
                             </options>
