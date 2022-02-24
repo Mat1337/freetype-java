@@ -1,17 +1,16 @@
 package me.mat.freetype;
 
 import me.mat.freetype.font.Face;
+import org.junit.Test;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
 public class FreeTypeTest {
 
-    public static void main(String[] args) {
+    @Test
+    public void face() {
         FreeType.initialize();
-
         Face face = FreeType.newFace(new File("C:/Windows/Fonts/Arial.ttf"));
         System.out.println("--------------------------------------------");
         System.out.println("                Arial Font                  ");
@@ -42,6 +41,7 @@ public class FreeTypeTest {
         face.delete();
         FreeType.free();
     }
+
 
     private static void generateBitmap(char aChar, Face face, int fontSize) {
         int padding = 15;
@@ -97,12 +97,14 @@ public class FreeTypeTest {
             }
         }
 
-        try {
-            File output = new File(aChar + ".png");
-            ImageIO.write(testImage, "png", output);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        /*
+            try {
+                File output = new File(aChar + ".png");
+                ImageIO.write(testImage, "png", output);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+         */
     }
 
     private static float mapRange(float val, float in_min, float in_max,

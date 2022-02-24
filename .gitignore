@@ -4,6 +4,8 @@ target/
 
 # Natives
 freetype-native.dll
+freetype-native.so
+freetype-native.dylib
 freetype-native.exp
 freetype-native.lib
 freetype-native.pdb
