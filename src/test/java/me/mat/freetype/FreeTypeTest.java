@@ -3,15 +3,13 @@ package me.mat.freetype;
 import me.mat.freetype.font.Face;
 import org.junit.Test;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
 public class FreeTypeTest {
 
     @Test
-    public void face() {
+    public void freeType() {
         FreeType.initialize();
         Face face = FreeType.newFace(new File("lib/RobotoSerif-Regular.ttf"));
         System.out.println("--------------------------------------------");

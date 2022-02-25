@@ -56,9 +56,11 @@ file(GLOB_RECURSE SOURCE_LIST "src/*.cpp" "src/*.hpp")
 add_library(freetype-native SHARED "${SOURCE_LIST}")
 
 # set up the export properties
-set_target_properties(freetype-native
-    PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY "${LIBRARY_EXPORT_PATH}/"
-    LIBRARY_OUTPUT_DIRECTORY "${LIBRARY_EXPORT_PATH}/"
-    RUNTIME_OUTPUT_DIRECTORY "${NATIVE_EXPORT_PATH}/"
-)
+if (UNIX)
+    set_target_properties(freetype-native
+        PROPERTIES
+        ARCHIVE_OUTPUT_DIRECTORY "${NATIVE_EXPORT_PATH}/"
+        LIBRARY_OUTPUT_DIRECTORY "${NATIVE_EXPORT_PATH}/"
+        RUNTIME_OUTPUT_DIRECTORY "${NATIVE_EXPORT_PATH}/"
+    )
+endif ()
