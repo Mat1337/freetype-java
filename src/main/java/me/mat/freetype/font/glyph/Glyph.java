@@ -20,9 +20,9 @@ public class Glyph {
     private final int imageHeight;
 
     @NonNull
-    private final int xAdvance;
+    private final float xAdvance;
 
     @NonNull
-    private final int yAdvance;
+    private final float yAdvance;
 
 }

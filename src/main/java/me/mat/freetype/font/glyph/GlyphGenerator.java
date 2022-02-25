@@ -142,12 +142,18 @@ public class GlyphGenerator {
             }
         }
 
+        face.setPixelSizes(0, fontSize);
+        if (face.loadChar(aChar, FreeType.LOAD_RENDER)) {
+            System.out.println("FreeType could not generate character.");
+            return null;
+        }
+
         return new Glyph(
                 glyphImage,
                 glyphImage.getWidth(),
                 glyphImage.getHeight(),
-                glyphSlot.getAdvance().getX(),
-                glyphSlot.getAdvance().getY()
+                face.getGlyphSlot().getBitmap().getWidth(),
+                0
         );
     }
 
