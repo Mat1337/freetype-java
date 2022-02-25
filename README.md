@@ -20,7 +20,7 @@ Currently the library only supports the following operating systems:
 > **Windows**   
 > **Linux**   
 
-If you wish to use the library on any other operating systems, you will have to compile the [FreeType](https://github.com/freetype/freetype) library for the target operating system and then compile the library with the compiled binaries 
+Library will be avaiable on Mac later
 
 # compiling the library
 
