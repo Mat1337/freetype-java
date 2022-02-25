@@ -70,7 +70,7 @@ public class FreeType {
     private static final File FREE_TYPE_NATIVE_DLL = new File(TEMP_DIRECTORY, "freetype-native.dll");
 
     // native handle
-    private static long handle;
+    private static long handle = -1;
     private static FreeTypeHandle freeTypeHandle;
 
     // version
@@ -89,6 +89,10 @@ public class FreeType {
     }
 
     public static void initialize() {
+        if (handle != -1) {
+            return;
+        }
+
         if (isProduction()) {
             loadLibrary(FREE_TYPE_DLL.getAbsolutePath());
             loadLibrary(FREE_TYPE_NATIVE_DLL.getAbsolutePath());
