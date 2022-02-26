@@ -64,11 +64,14 @@ public class GlyphGenerator {
         return glyphMap.get(aChar);
     }
 
-    public GlyphGenerator generateGlyphs(char start, char end) {
+    public void generateGlyphs(char start, char end) {
+        if (!glyphMap.isEmpty()) {
+            throw new RuntimeException("Glyphs are already generated");
+        }
         for (int i = start; i < end; i++) {
             generateGlyph((char) i);
         }
-        return this;
+        FreeType.free();
     }
 
     private Glyph generateGlyph(char aChar) {

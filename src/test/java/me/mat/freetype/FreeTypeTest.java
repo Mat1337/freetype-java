@@ -29,6 +29,7 @@ public class FreeTypeTest {
         }
 
         GlyphGenerator glyphGenerator = builder.build(fontFile, 64);
+        glyphGenerator.generateGlyphs(' ', '~');
         String text = "freetype-java";
         for (char aChar : text.toCharArray()) {
             Glyph glyph = glyphGenerator.getGlyph(aChar);

@@ -17,7 +17,7 @@
         <build.directory>${project.basedir}/target/</build.directory>
         <native.build.directory>${build.directory}/cmake/</native.build.directory>
         <library.export.directory>${native.build.directory}/lib/</library.export.directory>
-        <native.export.directory>${project.basedir}/lib/natives/</native.export.directory>
+        <native.export.directory>${project.basedir}/src/main/resources/</native.export.directory>
     </properties>
 
     <dependencies>
@@ -65,30 +65,6 @@
                         </goals>
                         <configuration>
                             <projectDirectory>${native.build.directory}</projectDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.2</version>
-                <executions>
-                    <execution>
-                        <id>create-native-jar</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                        <configuration>
-                            <classifier>natives</classifier>
-                            <classesDirectory>${native.export.directory}</classesDirectory>
-                            <includes>
-                                <include>*.dll</include>
-                                <include>*.so</include>
-                                <include>*.dylib</include>
-                            </includes>
-                            <outputDirectory>${build.directory}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
