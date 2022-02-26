@@ -12,6 +12,12 @@
         <!-- Compiler settings -->
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+
+        <!-- Directories -->
+        <build.directory>${project.basedir}/target/</build.directory>
+        <native.build.directory>${build.directory}/cmake/</native.build.directory>
+        <library.export.directory>${native.build.directory}/lib/</library.export.directory>
+        <native.export.directory>${project.basedir}/src/main/resources/</native.export.directory>
     </properties>
 
     <dependencies>
@@ -31,6 +37,38 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>com.googlecode.cmake-maven-project</groupId>
+                <artifactId>cmake-maven-plugin</artifactId>
+                <version>3.22.1-b1</version>
+                <executions>
+                    <execution>
+                        <id>cmake-generate</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <sourcePath>src/main/native/</sourcePath>
+                            <targetPath>${native.build.directory}</targetPath>
+                            <options>
+                                <option>-DNATIVE_EXPORT_PATH=${native.export.directory}</option>
+                                <option>-DLIBRARY_EXPORT_PATH=${library.export.directory}</option>
+                                <option>-DJAVA_PATH=${java.home}</option>
+                                <option>-DFREE_TYPE_DIR=${project.basedir}/lib/</option>
+                            </options>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>cmake-compile</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <projectDirectory>${native.build.directory}</projectDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
