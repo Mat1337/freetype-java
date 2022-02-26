@@ -11,7 +11,7 @@ the library uses JNI to create a link between the Java library and the library t
 
 > **Note: Compiling with different versions of FreeType**
 
-[FreeType](https://github.com/freetype/freetype) is packaged with the library, if you wish to use a newer version of the library you will have to compile the library yourself and replace the static & dynamic libraries in the */lib* directory
+[FreeType](https://github.com/freetype/freetype) is packaged with the library, if you wish to use a newer version of the library you will have to compile the library yourself and replace the static & dynamic libraries in the *src/main/resources* directory
 
 # support
 
