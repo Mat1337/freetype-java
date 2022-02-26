@@ -1,6 +1,7 @@
 # IDEA
 .idea/
 target/
+pom.xml
 
 # Natives
 freetype-native.exp
