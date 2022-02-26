@@ -1,7 +1,10 @@
 # IDEA
 .idea/
 target/
+
+# Remote building
 pom.xml
+src/main/native
 
 # Natives
 freetype-native.exp
