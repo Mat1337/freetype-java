@@ -2,6 +2,13 @@
 .idea/
 target/
 
+# Remote building
+pom.xml
+src/main/native
+lib/include/
+lib/libfreetype.a
+lib/freetype.lib
+
 # Natives
 freetype-native.exp
 freetype-native.lib
