@@ -1,7 +1,8 @@
-package me.mat.freetype.font;
+package me.mat.freetype.font.face;
 
 import lombok.Getter;
 import lombok.NonNull;
+import me.mat.freetype.font.CharMap;
 import me.mat.freetype.font.glyph.GlyphSlot;
 import me.mat.freetype.font.kerning.Kerning;
 import me.mat.freetype.font.kerning.KerningMode;
@@ -28,6 +29,15 @@ public class Face extends MemoryClass {
     }
 
     protected native boolean deleteFace();
+
+    protected native long getBoxPointer();
+
+    public BBox getBBox() {
+        long box = getBoxPointer();
+        if (box <= 0)
+            return null;
+        return new BBox(box);
+    }
 
     public boolean delete() {
         if (buffer != null) {

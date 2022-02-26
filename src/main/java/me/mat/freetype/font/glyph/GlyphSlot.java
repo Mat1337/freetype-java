@@ -19,6 +19,15 @@ public class GlyphSlot extends MemoryClass {
         return new Bitmap(bitmap);
     }
 
+    protected native long getMetricsPointer();
+
+    public GlyphMetrics getMetrics() {
+        long metrics = getMetricsPointer();
+        if (metrics <= 0)
+            return null;
+        return new GlyphMetrics(metrics);
+    }
+
     public native long getLinearHorizontalAdvance();
 
     public native long getLinearVerticalAdvance();

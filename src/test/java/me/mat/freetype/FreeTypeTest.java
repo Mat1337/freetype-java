@@ -10,6 +10,11 @@ import java.io.IOException;
 
 public class FreeTypeTest {
 
+    private GlyphGenerator.Builder builder = new GlyphGenerator.Builder()
+            .padding(15)
+            .upScale(105)
+            .spread(52);
+
     @Test
     public void freeType() {
         File fontFile = new File("lib/RobotoSerif-Regular.ttf");
@@ -23,11 +28,7 @@ public class FreeTypeTest {
             }
         }
 
-        GlyphGenerator glyphGenerator = new GlyphGenerator(
-                fontFile,
-                30
-        ).generateGlyphs(' ', '~');
-
+        GlyphGenerator glyphGenerator = builder.build(fontFile, 64);
         String text = "freetype-java";
         for (char aChar : text.toCharArray()) {
             Glyph glyph = glyphGenerator.getGlyph(aChar);
@@ -35,11 +36,13 @@ public class FreeTypeTest {
                 throw new IllegalArgumentException("Invalid glyph for '" + aChar + "'");
             }
             try {
+                File charFile = new File(testsDirectory, aChar + ".png");
                 ImageIO.write(
                         glyph.getImage(),
                         "png",
-                        new File(testsDirectory, aChar + ".png")
+                        charFile
                 );
+                assert (charFile.exists());
             } catch (IOException e) {
                 e.printStackTrace();
             }

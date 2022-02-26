@@ -1,6 +1,6 @@
 package me.mat.freetype;
 
-import me.mat.freetype.font.Face;
+import me.mat.freetype.font.face.Face;
 import me.mat.freetype.util.OperatingSystem;
 
 import java.io.File;

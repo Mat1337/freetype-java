@@ -41,6 +41,11 @@ JNIEXPORT jint JNICALL GetBitmapTop(JNIEnv *env, jclass object) {
 	return ((FT_GlyphSlot)pointer)->bitmap_top;
 }
 
+JNIEXPORT jlong JNICALL GetGlyphSlotMetrics(JNIEnv *env, jclass object) {
+    jlong pointer = env->GetLongField(object, glyphslot_pointer_id);
+	return (jlong)&((FT_GlyphSlot)pointer)->metrics;
+}
+
 GlyphSlot::GlyphSlot()
     : MemoryClass::MemoryClass("me/mat/freetype/font/glyph/GlyphSlot")
 {
@@ -80,5 +85,10 @@ GlyphSlot::GlyphSlot()
         "getBitmapTop",
         "()I",
         (void*)&GetBitmapTop
+    );
+    this->Register(
+        "getMetricsPointer",
+        "()J",
+        (void*)GetGlyphSlotMetrics
     );
 }

@@ -1,7 +1,7 @@
 package me.mat.freetype;
 
 import lombok.NonNull;
-import me.mat.freetype.font.Face;
+import me.mat.freetype.font.face.Face;
 import me.mat.freetype.util.MemoryClass;
 
 import java.io.ByteArrayOutputStream;

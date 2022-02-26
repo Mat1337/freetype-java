@@ -240,8 +240,13 @@ JNIEXPORT jshort JNICALL GetTypeFlags(JNIEnv *env, jclass object) {
 	return FT_Get_FSType_Flags((FT_Face)pointer);
 }
 
+JNIEXPORT jlong JNICALL GetBBoxPointer(JNIEnv *env, jclass object) {
+    jlong pointer = env->GetLongField(object, face_pointer_id);
+	return (jlong)(&((FT_Face)pointer)->bbox);
+}
+
 Face::Face()
-    : MemoryClass::MemoryClass("me/mat/freetype/font/Face")
+    : MemoryClass::MemoryClass("me/mat/freetype/font/face/Face")
 {
     face_pointer_id = m_PointerID;
 
@@ -439,5 +444,10 @@ Face::Face()
         "getFSTypeFlags",
         "()S",
         (void*)&GetTypeFlags
+    );
+    this->Register(
+        "getBoxPointer",
+        "()J",
+        (void*)&GetBBoxPointer
     );
 }

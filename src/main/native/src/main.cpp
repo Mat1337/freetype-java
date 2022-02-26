@@ -5,6 +5,7 @@
 #include "class/impl/bitmap.h"
 #include "class/impl/char_map.h"
 #include "class/impl/freetype_handle.h"
+#include "class/impl/bbox.h"
 #include "class/impl/face.h"
 #include "class/impl/glyph_slot.h"
 #include "class/impl/glyph_metrics.h"
@@ -17,6 +18,7 @@ MemoryClass* 		memory_class;
 Bitmap* 			bitmap;
 CharMap* 			charmap;
 FreeTypeHandle* 	freetype_handle;
+BBox* 				b_box;
 Face* 				face;
 GlyphSlot* 			glyphSlot;
 GlyphMetrics* 		glyph_metrics;
@@ -54,6 +56,7 @@ jint JNIEXPORT JNI_OnLoad(JavaVM* jvm, void* reserved)
 	bitmap = new Bitmap();
 	charmap = new CharMap();
 	freetype_handle = new FreeTypeHandle();
+	b_box = new BBox();
 	face = new Face();
 	glyphSlot = new GlyphSlot();
 	glyph_metrics = new GlyphMetrics();

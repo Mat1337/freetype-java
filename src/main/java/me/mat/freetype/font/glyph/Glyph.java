@@ -23,6 +23,9 @@ public class Glyph {
     private final float xAdvance;
 
     @NonNull
-    private final float yAdvance;
+    private final float xOffset;
+
+    @NonNull
+    private final float yOffset;
 
 }

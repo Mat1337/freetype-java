@@ -3,9 +3,6 @@
 target/
 
 # Natives
-freetype-native.dll
-libfreetype-native.so
-libfreetype-native.dylib
 freetype-native.exp
 freetype-native.lib
 freetype-native.pdb

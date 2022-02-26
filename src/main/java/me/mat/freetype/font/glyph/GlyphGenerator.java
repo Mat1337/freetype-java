@@ -1,8 +1,10 @@
 package me.mat.freetype.font.glyph;
 
-import lombok.Setter;
+import lombok.AccessLevel;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import me.mat.freetype.FreeType;
-import me.mat.freetype.font.Face;
+import me.mat.freetype.font.face.Face;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -10,59 +12,53 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class GlyphGenerator {
 
-    private final Map<Character, Glyph> glyphMap;
-    private final Face face;
-    private final int fontSize;
+    private final Map<Character, Glyph> glyphMap = new HashMap<>();
 
-    @Setter
-    private boolean generateMissing = false;
+    @NonNull
+    protected final int padding;
 
-    @Setter
-    private int padding = 15;
+    @NonNull
+    protected final int upScaleResolution;
 
-    @Setter
-    private int upscaleResolution = 105;
+    @NonNull
+    protected final int spread;
 
-    @Setter
-    private int spread = upscaleResolution / 2;
+    protected int fontSize;
+    private float fontScale;
+    private Face face;
 
-    public GlyphGenerator(File file, int fontSize) {
-        if (!file.exists()) {
-            throw new NullPointerException("Invalid font");
-        }
+    private GlyphGenerator load(InputStream inputStream, int fontSize) {
         try {
             FreeType.initialize();
-            this.glyphMap = new HashMap<>();
-            this.face = FreeType.newFace(file);
-            this.face.setPixelSizes(0, fontSize);
-            this.fontSize = fontSize;
+            this.load(FreeType.newFace(inputStream), fontSize);
+            return this;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    public GlyphGenerator(InputStream inputStream, int fontSize) {
-        if (inputStream == null) {
-            throw new NullPointerException("Invalid font");
-        }
+    private GlyphGenerator load(File file, int fontSize) {
         try {
             FreeType.initialize();
-            this.glyphMap = new HashMap<>();
-            this.face = FreeType.newFace(inputStream);
-            this.face.setPixelSizes(0, fontSize);
-            this.fontSize = fontSize;
+            this.load(FreeType.newFace(file), fontSize);
+            return this;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void load(Face face, int fontSize) {
+        this.face = face;
+        this.fontSize = fontSize;
+        this.fontScale = this.upScaleResolution / (float) this.fontSize;
+        this.face.setPixelSizes(0, fontSize);
     }
 
     public Glyph getGlyph(char aChar) {
         if (!glyphMap.containsKey(aChar)) {
-            if (!generateMissing) {
-                throw new IllegalArgumentException("Invalid glyph for '" + aChar + "'");
-            }
             return generateGlyph(aChar);
         }
         return glyphMap.get(aChar);
@@ -85,7 +81,7 @@ public class GlyphGenerator {
     }
 
     Glyph createCharGlyph(char aChar) {
-        face.setPixelSizes(0, upscaleResolution);
+        face.setPixelSizes(0, upScaleResolution);
         if (face.loadChar(aChar, FreeType.LOAD_RENDER)) {
             System.out.println("FreeType could not generate character.");
             return null;
@@ -101,8 +97,8 @@ public class GlyphGenerator {
         byte[] glyphBitmap = new byte[glyphHeight * glyphWidth];
         face.getGlyphSlot().getBitmap().getBuffer().get(glyphBitmap, 0, glyphWidth * glyphHeight);
 
-        float widthScale = (float) glyphWidth / (float) upscaleResolution;
-        float heightScale = (float) glyphHeight / (float) upscaleResolution;
+        float widthScale = (float) glyphWidth / (float) upScaleResolution;
+        float heightScale = (float) glyphHeight / (float) upScaleResolution;
 
         int characterWidth = (int) ((float) fontSize * widthScale);
         int characterHeight = (int) ((float) fontSize * heightScale);
@@ -130,7 +126,7 @@ public class GlyphGenerator {
         int x = 0;
         int y = 0;
         for (int byteAsInt : bitmap) {
-            int argb = (255 << 24) | (byteAsInt << 16) | (byteAsInt << 8) | byteAsInt;
+            int argb = (byteAsInt << 24) | (byteAsInt << 16) | (byteAsInt << 8) | byteAsInt;
             glyphImage.setRGB(x, y, argb);
             x++;
             if (x >= bitmapWidth) {
@@ -142,18 +138,15 @@ public class GlyphGenerator {
             }
         }
 
-        face.setPixelSizes(0, fontSize);
-        if (face.loadChar(aChar, FreeType.LOAD_RENDER)) {
-            System.out.println("FreeType could not generate character.");
-            return null;
-        }
-
+        Advance advance = glyphSlot.getAdvance();
+        float xAdvance = (advance.getX() / fontScale) / 64;
         return new Glyph(
                 glyphImage,
                 glyphImage.getWidth(),
                 glyphImage.getHeight(),
-                face.getGlyphSlot().getBitmap().getWidth(),
-                0
+                xAdvance,
+                glyphSlot.getBitmapLeft(),
+                glyphSlot.getBitmapTop()
         );
     }
 
@@ -195,5 +188,49 @@ public class GlyphGenerator {
         return (output + 1) * 0.5f;
     }
 
+    public static final class Builder {
+
+        private int padding = 15;
+        private int upScaleResolution = 105;
+        private int spread = upScaleResolution / 2;
+
+        public Builder padding(int padding) {
+            this.padding = padding;
+            return this;
+        }
+
+        public Builder upScale(int upScaleResolution) {
+            this.upScaleResolution = upScaleResolution;
+            return this;
+        }
+
+        public Builder spread(int spread) {
+            this.spread = spread;
+            return this;
+        }
+
+        public GlyphGenerator build(InputStream inputStream, int fontSize) {
+            if (inputStream == null) {
+                throw new NullPointerException("Invalid font");
+            }
+            return new GlyphGenerator(
+                    padding,
+                    upScaleResolution,
+                    spread
+            ).load(inputStream, fontSize);
+        }
+
+        public GlyphGenerator build(File file, int fontSize) {
+            if (!file.exists()) {
+                throw new NullPointerException("Invalid font");
+            }
+            return new GlyphGenerator(
+                    padding,
+                    upScaleResolution,
+                    spread
+            ).load(file, fontSize);
+        }
+
+    }
 
 }
