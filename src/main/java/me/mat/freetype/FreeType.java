@@ -126,8 +126,8 @@ public class FreeType {
     }
 
     private static boolean isProduction() {
-        InputStream freeType = FreeType.class.getResourceAsStream("/freetype.dll");
-        InputStream freeTypeNative = FreeType.class.getResourceAsStream("/freetype-native.dll");
+        InputStream freeType = getNative("freetype");
+        InputStream freeTypeNative = getNative("freetype-native");
         if (freeType == null
                 || freeTypeNative == null) {
             return false;
@@ -136,6 +136,13 @@ public class FreeType {
         extractResource(FREE_TYPE_DLL.getAbsolutePath(), freeType);
         extractResource(FREE_TYPE_NATIVE_DLL.getAbsolutePath(), freeTypeNative);
         return true;
+    }
+
+    private static InputStream getNative(String name) {
+        if (OperatingSystem.getOperatingSystem().equals(OperatingSystem.LINUX)) {
+            return FreeType.class.getResourceAsStream("/lib" + name + ".so");
+        }
+        return FreeType.class.getResourceAsStream("/" + name + ".dll");
     }
 
     private static void extractResource(String outputPath, InputStream inputStream) {
