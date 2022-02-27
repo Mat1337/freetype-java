@@ -1,3 +1,6 @@
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg) ](LICENSE)
+[![Release](https://jitpack.io/v/Mat1337/freetype-java.svg)](RELEASE)
+
 # freetype-java
 
 freetype-java is a port of the [FreeType](https://github.com/freetype/freetype) library to java   
