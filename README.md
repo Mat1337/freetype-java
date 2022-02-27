@@ -1,4 +1,5 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg) ](LICENSE)
+[![Release](https://jitpack.io/v/Mat1337/freetype-java.svg)](RELEASE)
 
 # freetype-java
 
