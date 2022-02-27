@@ -20,10 +20,45 @@ Currently the library only supports the following operating systems:
 > **Windows**   
 > **Linux**   
 
-Library will be avaiable on Mac later
+Library will be avaiable on Mac later   
+
+# usage
+
+**Maven**   
+
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+
+<dependencies>
+  <dependency>
+      <groupId>com.github.Mat1337</groupId>
+      <artifactId>freetype-java</artifactId>
+      <version>${version}</version>
+  </dependency>
+</dependencies>
+```
+
+**Gradle**
+
+```gradle
+allprojects {
+    repositories {
+      maven { url 'https://jitpack.io' }
+    }
+  }
+dependencies {
+    implementation 'com.github.Mat1337:freetype-java:${version}'
+}
+```
 
 # compiling the library
 
 1) git clone https://github.com/Mat1337/freetype-java.git
 2) cd freetype-java
-3) mvn clean package
+3) git checkout build
+4) mvn clean package
